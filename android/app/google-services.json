@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1058169817941",
+    "project_id": "chat-app-e42e6",
+    "storage_bucket": "chat-app-e42e6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1058169817941:android:e8a5d7f161d87c40a6fddc",
+        "android_client_info": {
+          "package_name": "com.gogo.chat_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCfsFvzYW0RD9IoE0QkVhun7OwWCUjjBW8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
