@@ -45,4 +45,9 @@ class AuthService {
       throw Exception(e.code);
     }
   }
+
+  // sign out
+  Future<void> signOut() async {
+    return await auth.signOut();
+  }
 }

@@ -1,13 +1,15 @@
 import 'package:chat_app/auth/auth_gate.dart';
+import 'package:chat_app/core/theme/theme_provider.dart';
 import 'package:chat_app/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  runApp(const MyApp());
+  runApp(ChangeNotifierProvider(create: (context) => ThemeProvider(), child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -19,10 +21,7 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
+      theme: Provider.of<ThemeProvider>(context).themeData,
       home: const AuthGate(),
     );
   }

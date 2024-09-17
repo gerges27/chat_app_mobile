@@ -2,8 +2,10 @@ import 'package:chat_app/auth/widgets/user_tile.dart';
 import 'package:chat_app/auth_service.dart';
 import 'package:chat_app/chat/chat_service.dart';
 import 'package:chat_app/chat/screen/chat_screen.dart';
+import 'package:chat_app/core/theme/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -16,12 +18,35 @@ class _HomeScreenState extends State<HomeScreen> {
   final ChatService chatService = ChatService();
   final AuthService authService = AuthService();
 
+  void logout() {
+    final AuthService authService = AuthService();
+    authService.signOut();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: AppBar(
         title: const Text('Home'),
-        actions: const [],
+        actions: [
+          IconButton(
+            onPressed: () {
+              logout();
+            },
+            icon: const Icon(Icons.logout),
+          ),
+          IconButton(
+            onPressed: () {
+              Provider.of<ThemeProvider>(context, listen: false).toggleTheme();
+            },
+            icon: Provider.of<ThemeProvider>(context, listen: false).isDarkMode
+                ? const Icon(
+                    Icons.light_mode,
+                  )
+                : const Icon(Icons.dark_mode),
+          ),
+        ],
       ),
       body: buildUserList(),
     );
@@ -40,24 +65,21 @@ class _HomeScreenState extends State<HomeScreen> {
         }
         // return list view
         return ListView(
-          children: snapshot.data!
-              .map<Widget>((userData) => buildUserListItem(userData, context))
-              .toList(),
+          children: snapshot.data!.map<Widget>((userData) => buildUserListItem(userData)).toList(),
         );
       },
     );
   }
 
-  Widget buildUserListItem(Map<String, dynamic> userData, BuildContext context) {
+  Widget buildUserListItem(Map<String, dynamic> userData) {
     if (userData['email'] != authService.getCurrentUser()?.email) {
       return UserTile(
         text: userData['email'],
         onTap: () {
-          Get.to(
-            () => ChatScreen(
-              receiverEmail: userData['email'],
-            ),
-          );
+          Get.to(() => ChatScreen(
+                receiverEmail: userData['email'],
+                receiverId: userData['uid'],
+              ));
         },
       );
     } else {

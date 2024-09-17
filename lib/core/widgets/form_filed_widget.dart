@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 
 class FormFiledWidget extends StatelessWidget {
-  final String label;
+  final String? label;
   final TextInputType? keyboardType;
   final TextEditingController? controller;
   final String? hintText, error;
@@ -23,7 +23,7 @@ class FormFiledWidget extends StatelessWidget {
     super.key,
     this.controller,
     this.keyboardType,
-    required this.label,
+     this.label,
     this.hintText,
     this.error,
     this.isMandatory = false,
@@ -53,10 +53,11 @@ class FormFiledWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           /* ---------------------------------- Label --------------------------------- */
+          if(label !=null)
           Container(
-            child: label.isNotEmpty && !isMandatory && !isOptional
+            child: label!.isNotEmpty && !isMandatory && !isOptional
                 ? Text(
-                    label,
+                    label!,
                   )
                 : isMandatory || isOptional
                     ? Row(
@@ -65,7 +66,7 @@ class FormFiledWidget extends StatelessWidget {
                         children: [
                           Flexible(
                             child: Text(
-                              label,
+                              label!,
                             ),
                           ),
                           // const SizedBox(
@@ -82,6 +83,8 @@ class FormFiledWidget extends StatelessWidget {
                       )
                     : Container(),
           ),
+        
+        
           const SizedBox(height: 10),
           TextFormField(
             focusNode: focusNode,
