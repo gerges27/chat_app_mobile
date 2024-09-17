@@ -78,7 +78,10 @@ class _ChatScreenState extends State<ChatScreen> {
                   "https://ui-avatars.com/api/?name=${widget.userName}&background=D1C2E5&color=fff&length=1"),
             ),
             const SizedBox(width: 15),
-            Text(widget.userName),
+            Text(
+              widget.userName.capitalize!,
+              style: TextStyle(color: Theme.of(context).colorScheme.inversePrimary),
+            ),
           ],
         ),
         leading: IconButton(onPressed: () => Get.back(), icon: const Icon(Icons.arrow_back_ios)),
