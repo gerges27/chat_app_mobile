@@ -8,8 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class ChatScreen extends StatefulWidget {
-  final String receiverEmail, receiverId;
-  const ChatScreen({super.key, required this.receiverEmail, required this.receiverId});
+  final String userName, receiverId;
+  const ChatScreen({super.key, required this.userName, required this.receiverId});
 
   @override
   State<ChatScreen> createState() => _ChatScreenState();
@@ -69,16 +69,16 @@ class _ChatScreenState extends State<ChatScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.transparent,
         title: Row(
           children: [
-            const CircleAvatar(
-              radius: 15,
-              child: Icon(
-                Icons.person,
-              ),
+            CircleAvatar(
+              radius: 20,
+              backgroundImage: NetworkImage(
+                  "https://ui-avatars.com/api/?name=${widget.userName}&background=D1C2E5&color=fff&length=1"),
             ),
             const SizedBox(width: 15),
-            Text(widget.receiverEmail),
+            Text(widget.userName),
           ],
         ),
         leading: IconButton(onPressed: () => Get.back(), icon: const Icon(Icons.arrow_back_ios)),
@@ -144,6 +144,7 @@ class _ChatScreenState extends State<ChatScreen> {
           onPressed: sendMessage,
           icon: const Icon(
             Icons.send,
+            color: kButtonsColor,
           ),
         ),
       ],

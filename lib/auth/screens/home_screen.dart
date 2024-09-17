@@ -1,10 +1,9 @@
 import 'package:chat_app/auth/widgets/user_tile.dart';
 import 'package:chat_app/auth_service.dart';
 import 'package:chat_app/chat/chat_service.dart';
-import 'package:chat_app/chat/screen/chat_screen.dart';
 import 'package:chat_app/core/theme/theme_provider.dart';
+import 'package:chat_app/core/utils/colors.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -28,27 +27,34 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: AppBar(
-        title: const Text('Home'),
+        title: Text(
+          'Home',
+          style: TextStyle(color: Theme.of(context).colorScheme.inversePrimary),
+        ),
         actions: [
           IconButton(
             onPressed: () {
               logout();
             },
-            icon: const Icon(Icons.logout),
+            icon: const Icon(
+              Icons.logout,
+              color: kButtonsColor,
+            ),
           ),
           IconButton(
             onPressed: () {
               Provider.of<ThemeProvider>(context, listen: false).toggleTheme();
             },
             icon: Provider.of<ThemeProvider>(context, listen: false).isDarkMode
-                ? const Icon(
-                    Icons.light_mode,
-                  )
-                : const Icon(Icons.dark_mode),
+                ? const Icon(Icons.light_mode, color: kButtonsColor)
+                : const Icon(Icons.dark_mode, color: kButtonsColor),
           ),
         ],
       ),
-      body: buildUserList(),
+      body: Padding(
+        padding: const EdgeInsets.all(15.0),
+        child: buildUserList(),
+      ),
     );
   }
 
@@ -74,13 +80,8 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget buildUserListItem(Map<String, dynamic> userData) {
     if (userData['email'] != authService.getCurrentUser()?.email) {
       return UserTile(
-        text: userData['email'],
-        onTap: () {
-          Get.to(() => ChatScreen(
-                receiverEmail: userData['email'],
-                receiverId: userData['uid'],
-              ));
-        },
+        email: userData['email'],
+        uid: userData['uid'],
       );
     } else {
       return Container();

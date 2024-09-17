@@ -1,7 +1,10 @@
+import 'package:chat_app/core/theme/theme_provider.dart';
 import 'package:chat_app/core/utils/app_styles.dart';
+import 'package:chat_app/core/utils/colors.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 class ChatBubble extends StatelessWidget {
   final String message;
@@ -12,6 +15,7 @@ class ChatBubble extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bool isDark = Provider.of<ThemeProvider>(context).isDarkMode;
     String getTime() {
       // Convert Timestamp to DateTime
       DateTime dateTime = timestamp.toDate();
@@ -36,7 +40,13 @@ class ChatBubble extends StatelessWidget {
         horizontal: 6.0,
       ),
       decoration: BoxDecoration(
-        color: isCurrentUser ? Colors.green : Colors.grey.shade500,
+        color: isCurrentUser
+            ? isDark
+                ? const Color(0xFF003C34)
+                : const Color(0xFFE1FFD4)
+            : !isDark
+                ? kWhite
+                : const Color(0xFF363637),
         borderRadius: BorderRadius.circular(12),
       ),
       child: Row(
@@ -50,6 +60,7 @@ class ChatBubble extends StatelessWidget {
               style: AppStyles.white16Bold.copyWith(
                 fontSize: 16,
                 fontWeight: FontWeight.w400,
+                color: isDark ? kWhite : const Color(0xFF010101),
               ),
             ),
           ),
@@ -59,6 +70,7 @@ class ChatBubble extends StatelessWidget {
             style: AppStyles.white16Bold.copyWith(
               fontSize: 10,
               fontWeight: FontWeight.w400,
+              color: isDark ? kWhite : const Color(0xFF010101),
             ),
           ),
         ],

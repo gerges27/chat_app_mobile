@@ -1,12 +1,15 @@
 import 'package:chat_app/auth/bloc/user_cubit.dart';
 import 'package:chat_app/auth/screens/home_screen.dart';
+import 'package:chat_app/core/theme/theme_provider.dart';
 import 'package:chat_app/core/utils/app_styles.dart';
+import 'package:chat_app/core/utils/colors.dart';
 import 'package:chat_app/core/widgets/form_filed_widget.dart';
 import 'package:chat_app/core/widgets/primary_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
+import 'package:provider/provider.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -42,7 +45,24 @@ class _RegisterScreenState extends State<RegisterScreen> {
         builder: (context, state) {
           UserCubit userCubit = UserCubit.get(context);
           return Scaffold(
-            appBar: AppBar(),
+            appBar: AppBar(
+              leading: IconButton(
+                  onPressed: () => Get.back(),
+                  icon: const Icon(
+                    Icons.arrow_back_ios,
+                    color: kButtonsColor,
+                  )),
+              actions: [
+                IconButton(
+                  onPressed: () {
+                    Provider.of<ThemeProvider>(context, listen: false).toggleTheme();
+                  },
+                  icon: Provider.of<ThemeProvider>(context, listen: false).isDarkMode
+                      ? const Icon(Icons.light_mode, color: kButtonsColor)
+                      : const Icon(Icons.dark_mode, color: kButtonsColor),
+                ),
+              ],
+            ),
             backgroundColor: Theme.of(context).colorScheme.surface,
             body: Container(
               padding: const EdgeInsets.all(20.0),
@@ -52,8 +72,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     const SizedBox(height: 40),
                     Text(
                       "SignUp",
-                      style: AppStyles.primary20Bold
-                          .copyWith(fontSize: 24, fontWeight: FontWeight.w600),
+                      style: AppStyles.primary20Bold.copyWith(
+                        fontSize: 24,
+                        fontWeight: FontWeight.w600,
+                        color: Theme.of(context).colorScheme.inversePrimary,
+                      ),
                     ),
                     FormFiledWidget(
                       label: "Email",

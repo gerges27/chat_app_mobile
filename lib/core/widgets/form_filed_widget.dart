@@ -1,6 +1,7 @@
+import 'package:chat_app/core/theme/theme_provider.dart';
 import 'package:chat_app/core/utils/colors.dart';
 import 'package:flutter/material.dart';
-
+import 'package:provider/provider.dart';
 
 class FormFiledWidget extends StatelessWidget {
   final String? label;
@@ -23,7 +24,7 @@ class FormFiledWidget extends StatelessWidget {
     super.key,
     this.controller,
     this.keyboardType,
-     this.label,
+    this.label,
     this.hintText,
     this.error,
     this.isMandatory = false,
@@ -47,46 +48,47 @@ class FormFiledWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bool isDark = Provider.of<ThemeProvider>(context).isDarkMode;
+
     return SizedBox(
       // width: width,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           /* ---------------------------------- Label --------------------------------- */
-          if(label !=null)
-          Container(
-            child: label!.isNotEmpty && !isMandatory && !isOptional
-                ? Text(
-                    label!,
-                  )
-                : isMandatory || isOptional
-                    ? Row(
-                        // mainAxisSize: MainAxisSize.min,
-                        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Flexible(
-                            child: Text(
-                              label!,
+          if (label != null)
+            Container(
+              child: label!.isNotEmpty && !isMandatory && !isOptional
+                  ? Text(
+                      label!,
+                    )
+                  : isMandatory || isOptional
+                      ? Row(
+                          // mainAxisSize: MainAxisSize.min,
+                          // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Flexible(
+                              child: Text(
+                                label!,
+                              ),
                             ),
-                          ),
-                          // const SizedBox(
-                          //   width: 5,
-                          // ),
-                          const Text(
-                            "*", // ? AppStrings.optional.tr : AppStrings.required.tr,
-                            style: TextStyle(
-                              // color: titleColor,
-                              fontSize: 14,
+                            // const SizedBox(
+                            //   width: 5,
+                            // ),
+                            const Text(
+                              "*", // ? AppStrings.optional.tr : AppStrings.required.tr,
+                              style: TextStyle(
+                                // color: titleColor,
+                                fontSize: 14,
+                              ),
                             ),
-                          ),
-                        ],
-                      )
-                    : Container(),
-          ),
-        
-        
+                          ],
+                        )
+                      : Container(),
+            ),
           const SizedBox(height: 10),
           TextFormField(
+            style: TextStyle(color: isDark ? kWhite : kBlack),
             focusNode: focusNode,
             readOnly: readOnly,
             textDirection: textDirection,
@@ -100,8 +102,11 @@ class FormFiledWidget extends StatelessWidget {
             onChanged: onChanged,
             autofillHints: autofillHints,
             validator: validator,
-            cursorColor: kBlack,
+            cursorColor: isDark ? kWhite : kBlack,
             decoration: InputDecoration(
+              hintStyle: TextStyle(
+                color: isDark ? kWhite.withOpacity(.5) : kBlack.withOpacity(.5),
+              ),
               errorText: error ?? '',
               // error: Text(
               //   error ?? '',
@@ -109,7 +114,7 @@ class FormFiledWidget extends StatelessWidget {
               // ),
               hintText: hintText ?? '',
               // hintStyle: AppStyles.hintStyle,
-              fillColor: Colors.white,
+              fillColor: isDark ? const Color(0xFF4B4B4C) : Colors.white,
               alignLabelWithHint: true,
               // hintTextDirection: alignHint ?? TextDirection.ltr,
               contentPadding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
@@ -147,7 +152,7 @@ class FormFiledWidget extends StatelessWidget {
                       // ),
                       )
                   : const SizedBox(),
-              focusColor: kPrimary,
+              // focusColor: isDark ? kWhite : kPrimary,
             ),
           ),
         ],
