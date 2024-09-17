@@ -1,9 +1,11 @@
 import 'package:chat_app/auth_service.dart';
 import 'package:chat_app/chat/chat_service.dart';
 import 'package:chat_app/chat/widget/chat_bubble.dart';
+import 'package:chat_app/core/utils/colors.dart';
 import 'package:chat_app/core/widgets/form_filed_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class ChatScreen extends StatefulWidget {
   final String receiverEmail, receiverId;
@@ -67,7 +69,22 @@ class _ChatScreenState extends State<ChatScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.receiverEmail),
+        title: Row(
+          children: [
+            const CircleAvatar(
+              radius: 15,
+              child: Icon(
+                Icons.person,
+              ),
+            ),
+            const SizedBox(width: 15),
+            Text(widget.receiverEmail),
+          ],
+        ),
+        leading: IconButton(onPressed: () => Get.back(), icon: const Icon(Icons.arrow_back_ios)),
+        iconTheme: const IconThemeData(
+          color: kButtonsColor,
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(12),
@@ -107,6 +124,7 @@ class _ChatScreenState extends State<ChatScreen> {
         alignment: isCurrentUser ? Alignment.centerRight : Alignment.centerLeft,
         child: ChatBubble(
           message: data['message'],
+          timestamp: data['timestamp'],
           isCurrentUser: isCurrentUser,
         ));
   }

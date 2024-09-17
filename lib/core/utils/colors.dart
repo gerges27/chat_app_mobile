@@ -7,13 +7,9 @@ const Color kGreen = Color(0xFF008800);
 const Color kError = Color(0xFFFF2525);
 const Color kWhite = Color(0xFFFFFFFF);
 const Color kDisabledButton = Color(0xFFB6B6B6);
-
-
+const Color kButtonsColor = Color(0xFF53A6FD);
 
 const Color kHintColor = Color(0xFFB6B6B6);
-
-
-
 
 extension HexColor on Color {
   static Color fromHex(String hexColorString) {
